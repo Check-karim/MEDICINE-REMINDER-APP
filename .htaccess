@@ -1,0 +1,16 @@
+Options -Indexes
+DirectoryIndex index.php
+
+AddType application/manifest+json .webmanifest
+
+<Files "sw.js">
+    Header set Cache-Control "no-cache"
+</Files>
+
+<Files "config.php">
+    Require all denied
+</Files>
+
+<Files "router.php">
+    Require all denied
+</Files>
