@@ -21,9 +21,9 @@ foreach ($rows as $row) {
 app_open('Reminders', 'remind');
 ?>
 <div class="note" id="notify-box">
-  <p id="notify-status">Turn on a browser reminder for doses that are due now.</p>
-  <button class="btn btn-secondary" type="button" id="notify-toggle">Turn on reminders</button>
-  <p class="hint">App time is <?= e(date('g:i A')) ?>. A dose is due for <?= (int) DUE_GRACE_MINUTES ?> minutes, then it shows as missed until you mark it. Browser alerts appear while this app is open.</p>
+  <p id="notify-status">Turn on an alarm for doses that are due now.</p>
+  <button class="btn btn-secondary" type="button" id="notify-toggle">Turn on alarms</button>
+  <p class="hint">App time is <?= e(date('g:i A')) ?>. A dose is due for <?= (int) DUE_GRACE_MINUTES ?> minutes, then it shows as missed until you mark it. The alarm sounds in the browser and in the installed app. Keep a window open so it can ring.</p>
 </div>
 <?php if (!$rows): ?>
   <?php empty_state('No reminders today', 'Add a medicine and choose a day that includes today.', 'medicine-form.php', 'Add a medicine'); ?>

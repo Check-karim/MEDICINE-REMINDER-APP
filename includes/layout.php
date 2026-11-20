@@ -69,7 +69,8 @@ function page_open($title, $bodyClass, array $attrs = [])
     echo '<title>' . e($title) . ' · Medicine Reminder</title>';
     echo '<link rel="icon" href="' . e(url('assets/favicon.svg')) . '" type="image/svg+xml">';
     echo '<link rel="apple-touch-icon" href="' . e(url('assets/icons/icon-180.png')) . '">';
-    echo '<link rel="manifest" href="' . e(url('manifest.webmanifest')) . '">';
+    echo '<link rel="manifest" href="' . e(asset('manifest.webmanifest')) . '">';
+    echo '<script>window.__deferredInstall=null;window.addEventListener("beforeinstallprompt",function(event){event.preventDefault();window.__deferredInstall=event;});</script>';
     echo '<link rel="preconnect" href="https://fonts.googleapis.com">';
     echo '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&amp;display=swap">';
     echo '<link rel="stylesheet" href="' . e(asset('assets/css/app.css')) . '">';

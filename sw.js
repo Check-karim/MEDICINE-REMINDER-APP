@@ -1,4 +1,4 @@
-var CACHE = "medicine-reminder-v1";
+var CACHE = "medicine-reminder-v2";
 
 self.addEventListener("install", function (event) {
   event.waitUntil(
@@ -61,6 +61,38 @@ self.addEventListener("fetch", function (event) {
         return cached;
       });
       return cached || network;
+    })
+  );
+});
+
+self.addEventListener("message", function (event) {
+  var data = event.data || {};
+  if (data.type !== "clear-alarm") return;
+  event.waitUntil(
+    self.registration.getNotifications({ tag: "medicine-alarm" }).then(function (notes) {
+      notes.forEach(function (note) { note.close(); });
+    })
+  );
+});
+
+self.addEventListener("notificationclick", function (event) {
+  var action = event.action || "";
+  var target = (event.notification.data && event.notification.data.url) || "reminders.php";
+  event.notification.close();
+  event.waitUntil(
+    self.clients.matchAll({ type: "window", includeUncontrolled: true }).then(function (list) {
+      if (action === "stop") {
+        list.forEach(function (client) {
+          client.postMessage({ type: "stop-alarm" });
+        });
+        return;
+      }
+      var index;
+      for (index = 0; index < list.length; index++) {
+        list[index].postMessage({ type: "show-alarm" });
+        if ("focus" in list[index]) return list[index].focus();
+      }
+      if (self.clients.openWindow) return self.clients.openWindow(target);
     })
   );
 });

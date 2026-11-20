@@ -13,19 +13,24 @@ if (!current_user() || current_user()['role'] !== 'patient') {
 
 $today = date('Y-m-d');
 $rows = build_occurrences($today, $today, (int) current_user()['id']);
-$due = [];
+$items = [];
 foreach ($rows as $row) {
-    if ($row['status'] !== 'due') {
-        continue;
-    }
-    $due[] = [
+    $stamp = strtotime($row['date'] . ' ' . $row['time']);
+    $items[] = [
         'id' => (int) $row['dose_time_id'],
         'date' => $row['date'],
+        'status' => $row['status'],
         'name' => $row['name'],
         'dosage' => $row['dosage'],
         'quantity' => $row['quantity'],
         'time' => format_clock($row['time'])['label'],
+        'at' => $stamp === false ? 0 : $stamp,
     ];
 }
 
-echo json_encode(['due' => $due]);
+echo json_encode([
+    'now' => time(),
+    'today' => $today,
+    'reminders' => url('reminders.php'),
+    'items' => $items,
+]);
